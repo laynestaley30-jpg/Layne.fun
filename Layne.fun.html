@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Layne.fun</title>
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Caveat+Brush&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff; --ink:#111; --sub:#222;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg:#141414;--ink:#f5f5f5;--sub:#ddd}
+}
+:root[data-theme="dark"]{--bg:#141414;--ink:#f5f5f5;--sub:#ddd}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Patrick Hand",system-ui,sans-serif}
+header{text-align:center;padding:40px 16px 24px}
+.logo{display:flex;align-items:center;justify-content:center;gap:10px;
+  font-family:"Caveat Brush","Patrick Hand",cursive;font-size:clamp(56px,16vw,96px);line-height:1;letter-spacing:1px;margin:0;text-transform:uppercase}
+.face{width:.62em;height:.62em;border-radius:50%;background:#ffd23f;border:3px solid var(--ink);
+  display:inline-flex;align-items:center;justify-content:center;font-size:.5em}
+header p{margin:10px 0 0;font-size:clamp(20px,5vw,28px);font-family:system-ui,sans-serif;font-weight:300}
+main{max-width:640px;margin:0 auto;padding:8px 16px 48px;display:grid;gap:16px}
+.card{display:flex;align-items:center;justify-content:center;text-align:center;min-height:150px;
+  border-radius:22px;border:4px solid var(--ink);text-decoration:none;color:inherit;overflow:hidden;
+  padding:20px;transition:transform .15s ease}
+.card:active{transform:scale(.98)}
+.card:focus-visible{outline:4px solid #3b82f6;outline-offset:3px}
+.card h2{margin:0;font-family:"Caveat Brush",cursive;font-size:clamp(40px,11vw,64px);line-height:1;font-weight:400}
+.card small{display:block;margin-top:6px;font-size:18px;opacity:.8}
+.c1{background:#ffe3ec;border-color:#c2185b;color:#7a0f3a}
+.c2{background:#fbf3e6;border-color:#d9cdb8;color:#222}
+.c3{background:#fff;border-color:#f6c945;color:#b3202e}
+.c4{background:#b8e2e0;border-color:#4a3425;color:#4a3425}
+.c5{background:#fff;border-color:var(--ink)}
+.soon{border-style:dashed;background:transparent;border-color:#999;color:#888}
+footer{text-align:center;padding:0 16px 40px;font-size:18px;opacity:.6}
+.card{position:relative;min-height:170px}
+.card>div{position:relative;z-index:1}
+.deco{position:absolute;pointer-events:none;user-select:none;line-height:1;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.2))}
+.logo::before{content:"✨";font-size:.4em;align-self:flex-start}
+.logo::after{content:"⭐";font-size:.4em;align-self:flex-end}
+.c1{background:repeating-linear-gradient(180deg,#bfe9ff 0 28px,#a5dcf7 28px 32px);border-color:#0b5d8c;color:#fff}
+.c1 h2{-webkit-text-stroke:2px #0b5d8c;text-shadow:4px 4px 0 #0b5d8c;transform:rotate(-3deg)}
+.c2{background:repeating-linear-gradient(90deg,#9d1b2e 0 36px,#7f1424 36px 44px);border-color:#e2b53c;color:#ffd978}
+.c2 h2{-webkit-text-stroke:2px #4a0a14;text-shadow:3px 3px 0 #4a0a14;letter-spacing:2px}
+.c3{background:radial-gradient(circle at 20% 20%,#1c3a5e,#0a1424);border-color:#22d3ee;color:#7df3ff}
+.c3 h2{text-shadow:0 0 12px #22d3ee,3px 3px 0 #064e5b}
+.c4{background:linear-gradient(180deg,#9be28a,#4aa83a);border-color:#2c5f1d;color:#ffe14d}
+.c4 h2{-webkit-text-stroke:2px #5b3a12;text-shadow:4px 4px 0 #5b3a12;transform:rotate(2deg)}
+.c5{background:repeating-linear-gradient(45deg,#f3e8ff 0 14px,#e6d3ff 14px 28px);border:4px dashed #7e22ce;color:#6b21a8}
+.c5 h2{-webkit-text-stroke:1px #6b21a8;text-shadow:3px 3px 0 #d8b4fe}
+#warp{position:fixed;inset:0;z-index:200;background:#fff;color:#111;display:none;flex-direction:column;align-items:center;justify-content:space-between;padding:calc(10vh + env(safe-area-inset-top,0px)) 24px calc(12vh + env(safe-area-inset-bottom,0px));text-align:center;clip-path:circle(0 at var(--x,50%) var(--y,50%))}
+#warp.on{display:flex;animation:wipe .75s cubic-bezier(.6,0,.9,.4) forwards}
+@keyframes wipe{to{clip-path:circle(160% at var(--x,50%) var(--y,50%))}}
+#warp>*{opacity:0;animation:fadein .4s .7s forwards}
+@keyframes fadein{to{opacity:1}}
+#warp-title{margin:0;font-family:"Caveat Brush",cursive;font-weight:400;font-size:clamp(44px,13vw,80px);line-height:1;-webkit-text-stroke:2px #111;color:#fff;text-shadow:4px 4px 0 #111}
+.star-wrap{perspective:600px}
+.star-wrap svg{width:min(46vw,200px);height:auto;animation:spin 1.6s linear infinite;filter:drop-shadow(0 6px 0 rgba(0,0,0,.25))}
+@keyframes spin{to{transform:rotateY(360deg)}}
+#warp-lives{font-family:"Caveat Brush",cursive;font-size:clamp(36px,10vw,56px)}
+.diving header,.diving main,.diving footer{transition:transform .75s ease-in,filter .75s ease-in;transform:scale(1.5);transform-origin:50% 35%;filter:blur(4px)}
+@media (prefers-reduced-motion: reduce){.star-wrap svg{animation-duration:4s}}
+.star-wrap{position:relative;width:min(50vw,220px);aspect-ratio:1;filter:drop-shadow(0 0 16px rgba(255,200,40,.85))}
+.star3d{position:absolute;inset:0;transform-style:preserve-3d;animation:spin 2.2s linear infinite}
+.star-wrap svg{position:absolute;inset:0;width:100%;height:100%;animation:none;filter:none}
+.spark{position:absolute;color:#ffd23f;text-shadow:0 0 6px #fff,0 0 2px #b87400;animation:twinkle 1.4s ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(.4) rotate(0)}50%{opacity:1;transform:scale(1.1) rotate(45deg)}}
+#warp-lives{display:flex;align-items:center;gap:10px;font-size:clamp(44px,12vw,68px);line-height:1}
+#warp-lives .life-icon{width:1.25em;height:1.25em;filter:drop-shadow(0 3px 0 rgba(0,0,0,.25))}
+#warp-lives .x,#warp-lives .n{color:#fff;-webkit-text-stroke:2px #111;text-shadow:3px 3px 0 #111}
+#warp{background:transparent;clip-path:none}
+#warp.on{animation:none}
+#warp>#warp-grid{position:absolute;inset:0;z-index:-1;display:grid;opacity:1;animation:none}
+#warp-grid i{background:#fff;box-shadow:0 0 0 1px #fff;opacity:0;animation:pop .001s forwards}
+@keyframes pop{to{opacity:1}}
+#warp-title{font-family:"Press Start 2P",monospace;font-size:clamp(18px,5.6vw,32px);line-height:1.6;color:#111;-webkit-text-stroke:0;text-shadow:4px 4px 0 #ffd23f;max-width:100%;overflow-wrap:anywhere}
+.star-wrap{filter:none}
+.star3d{display:none}
+.star-px{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;animation:pixspin 1.6s steps(12) infinite}
+@keyframes pixspin{0%{transform:scaleX(1)}50%{transform:scaleX(-1)}100%{transform:scaleX(1)}}
+.spark{width:10px;height:10px;background:#ffd23f;box-shadow:0 0 0 3px #111;text-shadow:none;font-size:0 !important;animation:twinkle 1.2s steps(2) infinite}
+#warp-lives{font-family:"Press Start 2P",monospace;font-size:clamp(24px,7vw,40px)}
+#warp-lives svg{display:none}
+#warp-lives .life-px{width:1.6em;height:1.6em;image-rendering:pixelated}
+#warp-lives .x,#warp-lives .n{color:#111;-webkit-text-stroke:0;text-shadow:3px 3px 0 #ffd23f}
+.star-3dpx{position:absolute;inset:0;transform-style:preserve-3d;animation:spin 2.4s steps(20) infinite}
+.star-3dpx canvas{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated}
+#gate{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}
+#gate.hidden{display:none}
+#gate h2{margin:0;font-family:"Caveat Brush",cursive;font-size:clamp(40px,12vw,64px);font-weight:400}
+#gate p{margin:0;font-size:22px}
+#gate input{width:min(320px,100%);font:inherit;font-size:24px;text-align:center;padding:12px 16px;border:4px solid var(--ink);border-radius:16px;background:var(--bg);color:var(--ink);text-transform:uppercase}
+#gate input:focus-visible{outline:4px solid #3b82f6;outline-offset:3px}
+#gate button{font:inherit;font-size:24px;padding:10px 32px;border:4px solid var(--ink);border-radius:16px;background:#ffd23f;color:#111;cursor:pointer}
+#gate .err{min-height:1.4em;color:#d32f2f;font-size:20px}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+#gate input.bad{animation:shake .3s;border-color:#d32f2f}
+</style>
+</head>
+<body>
+<div id="gate" role="dialog" aria-labelledby="gate-title">
+  <h2 id="gate-title">Enter the passcode</h2>
+  <p>You need the secret code to get in.</p>
+  <input id="code" type="password" autocomplete="off" autocapitalize="characters" placeholder="Passcode" aria-label="Passcode">
+  <div class="err" id="err" aria-live="polite"></div>
+  <button id="go" type="button">Enter</button>
+</div>
+<header>
+  <h1 class="logo">Layne<span class="face" aria-hidden="true">🙂</span>Fun</h1>
+  <p>games and stuff by Layne</p>
+</header>
+
+<main id="games"></main>
+<footer>More games coming soon</footer>
+<div id="warp" aria-hidden="true">
+  <h2 id="warp-title"></h2>
+  <div class="star-wrap">
+    <div class="star3d" id="star3d"></div>
+  </div>
+  <div id="warp-lives">
+    <svg class="life-icon" viewBox="0 0 100 100" aria-hidden="true"><defs><radialGradient id="lifeface" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#ffe9a8"/><stop offset="1" stop-color="#ffbf2e"/></radialGradient></defs><circle cx="50" cy="55" r="38" fill="url(#lifeface)" stroke="#111" stroke-width="5"/><circle cx="30" cy="68" r="6" fill="#ff8a80" opacity=".6"/><circle cx="70" cy="68" r="6" fill="#ff8a80" opacity=".6"/><ellipse cx="38" cy="60" rx="3.5" ry="5.5" fill="#111"/><ellipse cx="62" cy="60" rx="3.5" ry="5.5" fill="#111"/><path d="M37 73 Q50 85 63 73" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/><path d="M13 48 C13 12 87 12 87 48 Z" fill="#e53935" stroke="#111" stroke-width="5" stroke-linejoin="round"/><path d="M48 44 C68 38 94 42 95 51 C80 51 64 50 48 48 Z" fill="#c62828" stroke="#111" stroke-width="4" stroke-linejoin="round"/><circle cx="50" cy="27" r="10" fill="#fff" stroke="#111" stroke-width="3.5"/><text x="50" y="33" text-anchor="middle" font-family="Caveat Brush, sans-serif" font-size="16" fill="#111">L</text></svg>
+    <span class="x">×</span><span class="n">5</span>
+  </div>
+</div>
+
+<script>
+/* Add your games here: just paste the link into url. */
+const GAMES = [
+  { title: "Fishing Frenzy",     tagline: "Play now", url: "https://laynestaley30-jpg.github.io/Fishing-frenzy/", cls: "c1" },
+  { title: "Theater Experience", tagline: "Play now", url: "https://laynestaley30-jpg.github.io/Theater-experience-/", cls: "c2" },
+  { title: "Layne's Nexbots",    tagline: "Play now", url: "https://laynestaley30-jpg.github.io/Laynes-nexbots/", cls: "c3" },
+  { title: "Monkey Marathon",    tagline: "Play now", url: "https://laynestaley30-jpg.github.io/Monkey-marathon/", cls: "c4" },
+  { title: "GTL",                tagline: "Beta",     url: "https://laynestaley30-jpg.github.io/GTL/", cls: "c5", beta: true }
+];
+const root = document.getElementById("games");
+const DECO = {
+  "Fishing Frenzy": [["🐟",6,14,-20,38],["🎣",84,10,15,40],["🫧",20,68,0,28],["🐠",80,62,10,40],["🫧",50,80,0,22]],
+  "Theater Experience": [["🎭",6,14,-12,42],["🍿",84,14,12,40],["⭐",16,70,0,28],["🎬",82,66,-10,38],["⭐",50,82,0,22]],
+  "Layne's Nexbots": [["🤖",6,14,-10,42],["⚡",86,12,10,36],["🔩",16,70,25,28],["🔧",84,66,-20,34],["⚡",50,82,0,22]],
+  "Monkey Marathon": [["🐒",6,14,-10,42],["🍌",85,12,20,38],["🌴",14,66,0,40],["🏃",82,64,0,36],["🍌",50,82,-20,24]],
+  "GTL": [["🧪",6,14,-12,38],["🚧",86,14,10,36],["✨",16,70,0,28],["✨",84,68,0,28]]
+};
+let betaShown = false;
+GAMES.forEach(g => {
+  if (g.beta && !betaShown) {
+    betaShown = true;
+    const t = document.createElement("h3");
+    t.textContent = "Beta games";
+    t.style.cssText = "margin:16px 0 0;font-family:'Caveat Brush',cursive;font-weight:400;font-size:36px;text-align:center";
+    root.append(t);
+  }
+  const a = document.createElement("a");
+  a.className = "card " + g.cls;
+  a.href = g.url;
+  if (g.url !== "#") a.addEventListener("click", e => { e.preventDefault(); enterGame(g, e); });
+  const box = document.createElement("div");
+  const h = document.createElement("h2"); h.textContent = g.title;
+  const s = document.createElement("small"); s.textContent = g.tagline;
+  (DECO[g.title] || []).forEach(([emo, x, y, rot, size]) => {
+    const d = document.createElement("span");
+    d.className = "deco"; d.setAttribute("aria-hidden", "true"); d.textContent = emo;
+    d.style.cssText = `left:${x}%;top:${y}%;font-size:${size}px;transform:translate(-50%,-50%) rotate(${rot}deg)`;
+    a.append(d);
+  });
+  box.append(h, s); a.append(box); root.append(a);
+});
+
+/* Build the 3D power star */
+(function(){
+  const host = document.getElementById("star3d");
+  const wrap = host.parentElement;
+  const NS = "http://www.w3.org/2000/svg";
+  const P = "50,5 62,35 95,37 70,58 79,92 50,73 21,92 30,58 5,37 38,35";
+  const stroke = 'stroke="#4a2f00" stroke-width="5" stroke-linejoin="round"';
+  for (let i = -6; i <= 6; i++) {
+    const face = Math.abs(i) === 6;
+    const s = document.createElementNS(NS, "svg");
+    s.setAttribute("viewBox", "0 0 100 100");
+    s.style.transform = `translateZ(${i * 2}px)`;
+    s.innerHTML = face
+      ? `<defs><radialGradient id="sg${i}" cx="38%" cy="28%" r="85%"><stop offset="0" stop-color="#fffbc2"/><stop offset=".45" stop-color="#ffd23f"/><stop offset="1" stop-color="#f29a00"/></radialGradient></defs>` +
+        `<polygon points="${P}" fill="url(#sg${i})" ${stroke}/>` +
+        `<ellipse cx="41" cy="52" rx="4" ry="7" fill="#1a1100"/><ellipse cx="59" cy="52" rx="4" ry="7" fill="#1a1100"/>` +
+        `<ellipse cx="39.8" cy="49" rx="1.4" ry="2.4" fill="#fff"/><ellipse cx="57.8" cy="49" rx="1.4" ry="2.4" fill="#fff"/>`
+      : `<polygon points="${P}" fill="${i < 0 ? "#c98300" : "#e5a600"}" ${stroke}/>`;
+    host.append(s);
+  }
+  [[-4,8,"26px",0],[88,2,"20px",.4],[92,70,"28px",.8],[-2,76,"18px",1.1]].forEach(([x,y,fs,d]) => {
+    const sp = document.createElement("span");
+    sp.className = "spark"; sp.textContent = "\u2726";
+    sp.style.cssText = `left:${x}%;top:${y}%;font-size:${fs};animation-delay:${d}s`;
+    wrap.append(sp);
+  });
+})();
+
+/* Pixel art star and life icon */
+(function(){
+  const n = 28;
+  const c = document.createElement("canvas");
+  c.width = c.height = n; c.className = "star-px";
+  const ctx = c.getContext("2d");
+  const P = [[50,5],[62,35],[95,37],[70,58],[79,92],[50,73],[21,92],[30,58],[5,37],[38,35]].map(p => [p[0]*n/100, p[1]*n/100]);
+  function inside(px, py){
+    let ins = false;
+    for (let i = 0, j = P.length - 1; i < P.length; j = i++) {
+      const xi = P[i][0], yi = P[i][1], xj = P[j][0], yj = P[j][1];
+      if ((yi > py) !== (yj > py) && px < (xj - xi) * (py - yi) / (yj - yi) + xi) ins = !ins;
+    }
+    return ins;
+  }
+  const m = [];
+  for (let y = 0; y < n; y++) { m[y] = []; for (let x = 0; x < n; x++) m[y][x] = inside(x + .5, y + .5); }
+  const at = (x, y) => !!(m[y] && m[y][x]);
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+    if (!m[y][x]) continue;
+    const edge = !(at(x-1,y) && at(x+1,y) && at(x,y-1) && at(x,y+1));
+    const t = (x + y) / (2 * n);
+    ctx.fillStyle = edge ? "#4a2f00" : t < .38 ? "#fff3a0" : t < .62 ? "#ffd23f" : "#f29a00";
+    ctx.fillRect(x, y, 1, 1);
+  }
+  ctx.fillStyle = "#1a1100";
+  [11, 15].forEach(x => ctx.fillRect(x, 13, 2, 3));
+  ctx.fillStyle = "#fff";
+  [11, 15].forEach(x => ctx.fillRect(x, 13, 1, 1));
+  const side = document.createElement("canvas");
+  side.width = side.height = n;
+  const sx = side.getContext("2d");
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+    if (!m[y][x]) continue;
+    const edge = !(at(x-1,y) && at(x+1,y) && at(x,y-1) && at(x,y+1));
+    sx.fillStyle = edge ? "#4a2f00" : "#d99200";
+    sx.fillRect(x, y, 1, 1);
+  }
+  const spinner = document.createElement("div");
+  spinner.className = "star-3dpx";
+  for (let i = -4; i <= 4; i++) {
+    const L = document.createElement("canvas");
+    L.width = L.height = n;
+    L.getContext("2d").drawImage(Math.abs(i) === 4 ? c : side, 0, 0);
+    L.style.transform = "translateZ(" + (i * 3) + "px)";
+    spinner.append(L);
+  }
+  document.querySelector(".star-wrap").append(spinner);
+
+  const rows = [
+    "...kkkkkk...",
+    "..krrrrrrk..",
+    ".krrrwwrrrk.",
+    ".krrrwwrrrk.",
+    "kRRRRRRRRRRk",
+    "kssssssssssk",
+    "kssskssksssk",
+    "kssskssksssk",
+    "kp" + "s".repeat(8) + "pk",
+    "kss" + "k" + "ssss" + "k" + "ss" + "k",
+    ".kss" + "kkkk" + "ssk.",
+    "..kkkkkkkk.."
+  ];
+  const pal = { k: "#111", r: "#e53935", R: "#b71c1c", s: "#ffc233", p: "#ff8a80", w: "#fff" };
+  const lc = document.createElement("canvas");
+  lc.width = 12; lc.height = 12; lc.className = "life-px";
+  const lx = lc.getContext("2d");
+  rows.forEach((row, y) => row.split("").forEach((ch, x) => {
+    if (pal[ch]) { lx.fillStyle = pal[ch]; lx.fillRect(x, y, 1, 1); }
+  }));
+  document.getElementById("warp-lives").prepend(lc);
+})();
+
+/* Painting jump animation */
+let going = false;
+function enterGame(g, e){
+  if (going) return; going = true;
+  const w = document.getElementById("warp");
+  document.getElementById("warp-title").textContent = g.title;
+  w.style.setProperty("--x", (e.clientX || innerWidth / 2) + "px");
+  w.style.setProperty("--y", (e.clientY || innerHeight / 2) + "px");
+  let grid = document.getElementById("warp-grid");
+  if (!grid) { grid = document.createElement("div"); grid.id = "warp-grid"; w.prepend(grid); }
+  const cols = 8, cell = innerWidth / cols, rows = Math.ceil(innerHeight / cell);
+  const ox = e.clientX || innerWidth / 2, oy = e.clientY || innerHeight / 2;
+  const maxD = Math.hypot(Math.max(ox, innerWidth - ox), Math.max(oy, innerHeight - oy));
+  grid.style.gridTemplateColumns = "repeat(" + cols + ",1fr)";
+  grid.style.gridTemplateRows = "repeat(" + rows + ",1fr)";
+  grid.innerHTML = "";
+  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+    const d = Math.hypot((c + .5) * cell - ox, (r + .5) * (innerHeight / rows) - oy) / maxD;
+    const i = document.createElement("i");
+    i.style.animationDelay = (d * .5 + Math.random() * .15).toFixed(2) + "s";
+    grid.append(i);
+  }
+  document.body.classList.add("diving");
+  w.classList.add("on");
+  setTimeout(() => { location.href = g.url; }, 3200);
+}
+window.addEventListener("pageshow", () => {
+  going = false;
+  document.body.classList.remove("diving");
+  document.getElementById("warp").classList.remove("on");
+});
+
+/* Passcode gate */
+const PASSCODE = "HENRYISGOATED";
+const gate = document.getElementById("gate");
+const input = document.getElementById("code");
+const err = document.getElementById("err");
+function unlock(){ gate.classList.add("hidden"); }
+try { if (localStorage.getItem("layne-unlocked") === "yes") unlock(); } catch(e) {}
+function tryCode(){
+  if (input.value.trim().toUpperCase() === PASSCODE) {
+    try { localStorage.setItem("layne-unlocked", "yes"); } catch(e) {}
+    unlock();
+  } else {
+    err.textContent = "Wrong code, try again.";
+    input.classList.remove("bad"); void input.offsetWidth; input.classList.add("bad");
+    input.select();
+  }
+}
+document.getElementById("go").addEventListener("click", tryCode);
+input.addEventListener("keydown", e => { if (e.key === "Enter") tryCode(); });
+</script>
+</body>
+</html>
